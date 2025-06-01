@@ -12,12 +12,20 @@ const Home = () => {
   // Pagination states
   const [currentPage, setCurrentPage] = useState(0);
 
-  // Responsive cards per page for lower grid
+  // Track window width for responsive card sizing (optional enhancement)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Cards per page logic
   const getCardsPerPage = () => {
-    const width = window.innerWidth;
-    if (width >= 1024) return 6;
-    if (width >= 768) return 4;
-    if (width >= 480) return 2;
+    if (windowWidth >= 1024) return 6;
+    if (windowWidth >= 768) return 4;
+    if (windowWidth >= 480) return 2;
     return 1;
   };
 
@@ -30,7 +38,6 @@ const Home = () => {
       if (!scrollContainerRef.current) return;
       const el = scrollContainerRef.current;
       el.scrollLeft += SCROLL_SPEED;
-      // Loop back to start for infinite effect
       if (el.scrollLeft >= el.scrollWidth / 2) {
         el.scrollLeft = 0;
       }
@@ -49,6 +56,14 @@ const Home = () => {
     currentPage * cardsPerPage + cardsPerPage
   );
 
+  // Responsive card dimensions for marquee cards
+  // Adjust width/height based on window width (you can tweak as needed)
+  const marqueeCardWidth = windowWidth < 480 ? 140 : windowWidth < 768 ? 160 : 200;
+  const marqueeCardHeight = windowWidth < 480 ? 180 : windowWidth < 768 ? 220 : 250;
+
+  // Responsive card height for paginated cards
+  const paginatedCardHeight = windowWidth < 480 ? 220 : windowWidth < 768 ? 260 : 300;
+
   return (
     <>
       <Nav />
@@ -56,7 +71,7 @@ const Home = () => {
       {/* Upper auto-scrolling marquee */}
       <section className="bg-zinc-900 text-white py-6 overflow-hidden">
         <h2 className="text-2xl font-bold mb-4 text-center text-green-400">
-          Trending Now 
+          Trending Now
         </h2>
 
         <div
@@ -67,20 +82,21 @@ const Home = () => {
           {marqueeData.map((movie, index) => (
             <div
               key={index}
-              className="inline-block rounded-lg overflow-hidden bg-zinc-800"
-              style={{ width: '200px', flexShrink: 0 }}
+              className="inline-block rounded-lg overflow-hidden bg-zinc-800 flex-shrink-0"
+              style={{ width: `${marqueeCardWidth}px` }}
             >
               <img
                 src={movie.poster_image}
                 alt={movie.title}
-                className="w-full h-[250px] object-cover"
+                className="w-full object-cover"
+                style={{ height: `${marqueeCardHeight}px` }}
               />
               <div className="p-2 text-center">
                 <h3 className="text-sm font-semibold text-green-400 truncate">
                   {movie.title}
                 </h3>
                 <p className="text-xs text-yellow-300">
-                  Rating :{''}
+                  Rating :{' '}
                   <span
                     className={`px-2 py-1 rounded ${
                       movie.rating > 6 ? 'text-green-600' : 'text-red-600'
@@ -103,24 +119,31 @@ const Home = () => {
 
         <div
           className="grid gap-6"
-          style={{ gridTemplateColumns: `repeat(auto-fill, minmax(200px, 1fr))` }}
+          style={{
+            gridTemplateColumns:
+              windowWidth < 480
+                ? 'repeat(1, minmax(140px, 1fr))'
+                : windowWidth < 768
+                ? 'repeat(2, minmax(160px, 1fr))'
+                : windowWidth < 1024
+                ? 'repeat(4, minmax(180px, 1fr))'
+                : 'repeat(6, minmax(200px, 1fr))',
+          }}
         >
           {paginatedData.map((movie, index) => (
-            <div
-              key={index}
-              className="rounded-lg overflow-hidden bg-zinc-800"
-            >
+            <div key={index} className="rounded-lg overflow-hidden bg-zinc-800">
               <img
                 src={movie.poster_image}
                 alt={movie.title}
-                className="w-full h-[300px] object-cover"
+                className="w-full object-cover"
+                style={{ height: `${paginatedCardHeight}px` }}
               />
               <div className="p-2 text-center">
                 <h3 className="text-sm font-semibold text-green-400 truncate">
                   {movie.title}
                 </h3>
                 <p className="text-xs text-yellow-300">
-                  Rating :{''}
+                  Rating :{' '}
                   <span
                     className={`px-2 py-1 rounded ${
                       movie.rating > 6 ? 'text-green-500' : 'text-red-500'

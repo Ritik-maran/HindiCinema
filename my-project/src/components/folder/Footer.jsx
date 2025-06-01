@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer className="bg-gray-950 text-gray-400 py-10 px-5 border-t border-gray-800">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 gap-10 text-center md:grid-cols-4 md:text-left">
         
         {/* Brand Info */}
         <div>
           <h1 className="text-white text-2xl font-bold mb-3">🎬 MovieZone</h1>
-          <p className="text-sm leading-relaxed">
+          <p className="text-sm leading-relaxed max-w-xs mx-auto md:mx-0">
             Discover, stream, and download trending movies. Built for movie lovers, designed for performance.
           </p>
         </div>
@@ -41,7 +41,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm">
             <li><a href="#" className="hover:text-blue-400">Privacy Policy</a></li>
             <li><a href="#" className="hover:text-blue-400">Terms & Conditions</a></li>
-            <li className="flex space-x-3 mt-2">
+            <li className="flex justify-center md:justify-start space-x-3 mt-2">
               {/* Replace with icons later */}
               <a href="#" className="hover:text-blue-500">Twitter</a>
               <a href="#" className="hover:text-blue-500">Instagram</a>
