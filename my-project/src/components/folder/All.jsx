@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import Home from './Home'
 import About from './About'
 import Contact from './Contact'
-import LandingPage from './LandingPage';
+import LandingPage from './LandingPage'
+import { SearchProvider } from './SearchContext';
 
 const All = () => {
   return (
     <div>
+      <SearchProvider>
 
 <BrowserRouter>
 
@@ -19,6 +21,8 @@ const All = () => {
 </Routes>
 
 </BrowserRouter>
+
+</SearchProvider>
 
 </div>
   )
