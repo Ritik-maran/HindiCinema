@@ -2,34 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Nav from './Nav';
 import Footer from './Footer';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
+import Marquee from 'react-fast-marquee';
 import Data from '../Data.json';
 
 const LandingPage = () => {
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 3000,
-    autoplay: true,
-    autoplaySpeed: 0,
-    cssEase: 'linear',
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    pauseOnHover: true,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
-      { breakpoint: 600, settings: { slidesToShow: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } }
-    ]
-  };
-
   return (
     <div className="bg-gray-950 text-white min-h-screen flex flex-col">
-      
-
       {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
         <video
@@ -57,26 +35,26 @@ const LandingPage = () => {
       </section>
 
       {/* Carousel Section */}
-      <section className="py-16 px-6 md:px-20 bg-gray-900">
+      <section className="py-16 px-6 md:px-20 bg-gray-900 overflow-hidden">
         <h2 className="text-3xl font-bold mb-10 text-center text-yellow-400">Trending Now</h2>
-        <Slider {...sliderSettings}>
+        <Marquee pauseOnHover speed={40} gradient={false}>
           {Data.slice(0, 15).map((movie, idx) => (
             <div
               key={idx}
-              className="px-2 cursor-pointer transform hover:scale-110 transition-transform duration-300"
+              className="mx-4 cursor-pointer transform hover:scale-110 transition-transform duration-300"
               onClick={() => window.open(movie.trailer, '_blank')}
               title={movie.title}
             >
               <img
                 src={movie.poster_image}
                 alt={movie.title}
-                className="rounded-xl shadow-2xl w-full h-64 object-cover border-4 border-gray-700 hover:border-yellow-500"
+                className="rounded-xl shadow-2xl w-[150px] sm:w-[200px] h-[250px] object-cover border-4 border-gray-700 hover:border-yellow-500"
                 loading="lazy"
               />
-              <p className="mt-3 text-center text-yellow-300 font-bold truncate text-lg">{movie.title}</p>
+              <p className="mt-2 text-center text-yellow-300 font-bold truncate w-[150px] sm:w-[200px]">{movie.title}</p>
             </div>
           ))}
-        </Slider>
+        </Marquee>
       </section>
 
       {/* Features Section */}
@@ -126,7 +104,7 @@ const LandingPage = () => {
 
       <Footer />
 
-      {/* Inline animations */}
+      {/* Animations */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; }

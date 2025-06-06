@@ -50,8 +50,8 @@ const Home = () => {
               Title: {movie.title}
             </h2>
             <p className='text-yellow-400 text-center mb-1'>
-              Rating:
-              <span className={`ml-1 px-2 py-0.5 rounded text-white ${movie.rating > 6 ? 'bg-green-600' : 'bg-red-600'}`}>
+              Rating : {" "}
+              <span className={ ` ${movie.rating > 6 ? 'text-green-600' : 'text-red-600'}`}>
                 {movie.rating}
               </span>
             </p>
